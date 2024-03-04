@@ -8,6 +8,12 @@ framework:
 
     #esi: true
     #fragments: true
+    http_client:
+        scoped_clients:
+            musicbrainz.client:
+                base_uri: '%env(MUSICBRAINZ_API_URL)%'
+                headers:
+                    Accept: 'application/json'
 
 when@test:
     framework:

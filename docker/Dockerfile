@@ -11,17 +11,18 @@ RUN \
  setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
  chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy
 
+RUN \
+ apt-get update && \
+ apt-get -y install --no-install-recommends nano unzip curl && \
+ apt-get clean && \
+ rm -rf /var/lib/apt/lists/*
+
 RUN install-php-extensions \
 	gd \
 	intl \
 	zip \
 	opcache \
-    apcu
-
-RUN \
- apt-get update && \
- apt-get -y install --no-install-recommends nano unzip && \
- apt-get clean && \
- rm -rf /var/lib/apt/lists/*
+    apcu \
+    curl
 
 USER ${USER}
