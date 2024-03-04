@@ -1,0 +1,19 @@
+services:
+    php:
+        build: docker
+        user: 1000:1000
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - ./:/app
+            - caddy_data:/data
+            - caddy_config:/config
+        # commentez la ligne suivante en production, elle permet d'avoir de beaux logs lisibles en dev
+        tty: true
+        restart: unless-stopped
+
+volumes:
+    caddy_data:
+    caddy_config:
