@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Client\Model;
+namespace App\Client\MusicBrainz\Model;
 
 use Symfony\Component\Serializer\Attribute\SerializedName;
 

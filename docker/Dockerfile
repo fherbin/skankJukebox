@@ -1,10 +1,11 @@
 FROM dunglas/frankenphp:1-php8.3
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
 ARG USER=www-data
 ARG USER_UID=1000
 ARG USER_GID=1000
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN mkdir -p /var/www/.cache && chown -R ${USER}:${USER} /var/www/.cache
 
 RUN \
  usermod -u ${USER_UID} ${USER} && groupmod -g ${USER_GID} ${USER} && \
@@ -23,6 +24,6 @@ RUN install-php-extensions \
 	zip \
 	opcache \
     apcu \
-    curl
+    pdo_pgsql
 
 USER ${USER}

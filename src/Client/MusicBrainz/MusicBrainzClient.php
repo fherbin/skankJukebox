@@ -6,6 +6,7 @@ namespace App\Client\MusicBrainz;
 
 use App\Client\Model\Artist;
 use App\Client\Model\Recording;
+use App\Client\Model\Release;
 use App\Client\Model\Search;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,16 +17,16 @@ class MusicBrainzClient
     {
     }
 
-    /** @return Recording[] */
-    public function searchRecordings(string $search): array
+    /** @return Release[] */
+    public function searchRelease(string $search): array
     {
         $response = $this->musicbrainzClient->request(
             'GET',
-            MusicBrainzEntityEnum::RECORDING->value,
-            ['query' => ['query' => $search]]
+            MusicBrainzEntityEnum::RELEASE->value,
+            ['query' => ['query' => $search, 'inc' => 'recordings']]
         );
 
-        return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->recordings;
+        return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->releases;
     }
 
     /** @return Artist[] */
@@ -40,15 +41,27 @@ class MusicBrainzClient
         return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->artists;
     }
 
+    /** @return Release[] */
+    public function getReleasesByArtist(string $artistId): array
+    {
+        $response = $this->musicbrainzClient->request(
+            'GET',
+            MusicBrainzEntityEnum::RELEASE->value,
+            ['query' => ['query' => 'arid:'.$artistId]],
+        );
+
+        return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->releases;
+    }
+
     /** @return Recording[] */
-    public function getRecordingsByArtist(string $artistId): array
+    public function getRecordingsByRelease(string $releaseId): array
     {
         $response = $this->musicbrainzClient->request(
             'GET',
             MusicBrainzEntityEnum::RECORDING->value,
-            ['query' => ['query' => 'arid:'.$artistId]],
+            ['query' => ['query' => 'reid:'.$releaseId]],
         );
-
+dd(json_decode($response->getContent()));
         return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->recordings;
     }
 }

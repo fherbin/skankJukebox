@@ -15,10 +15,10 @@ class DefaultController
     {
     }
 
-    #[Route('search/recording/{query}', name: 'recording_search')]
-    public function searchRecording(string $query): JsonResponse
+    #[Route('search/release/{query}', name: 'release_search')]
+    public function searchRelease(string $query): JsonResponse
     {
-        return new JsonResponse($this->client->searchRecordings($query));
+        return new JsonResponse($this->client->searchRelease($query));
     }
 
     #[Route('search/artist/{query}', name: 'artist_search')]
@@ -27,9 +27,15 @@ class DefaultController
         return new JsonResponse($this->client->searchArtist($query));
     }
 
-    #[Route('search/artist/{artistId}/recordings', name: 'artist_recordings_search')]
-    public function searchArtistRecordings(string $artistId): JsonResponse
+    #[Route('artist/{artistId}/releases', name: 'artist_releases_get')]
+    public function searchArtistReleases(string $artistId): JsonResponse
     {
-        return new JsonResponse($this->client->getRecordingsByArtist($artistId));
+        return new JsonResponse($this->client->getReleasesByArtist($artistId));
+    }
+
+    #[Route('release/{releaseId}/recordings', name: 'release_recordings_get')]
+    public function getRecordingsByRelease(string $releaseId): JsonResponse
+    {
+        return new JsonResponse($this->client->getRecordingsByRelease($releaseId));
     }
 }

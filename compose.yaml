@@ -12,8 +12,22 @@ services:
             - caddy_config:/config
         # commentez la ligne suivante en production, elle permet d'avoir de beaux logs lisibles en dev
         tty: true
+        depends_on: [ postgres ]
+        restart: unless-stopped
+
+    postgres:
+        image: postgres:16
+        volumes:
+            - postgres:/data/postgres
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: skank-jukebox
+            POSTGRES_PASSWORD: changeme
+            PGDATA: /data/postgres
         restart: unless-stopped
 
 volumes:
     caddy_data:
     caddy_config:
+    postgres:
