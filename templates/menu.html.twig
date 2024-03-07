@@ -1,0 +1,20 @@
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link {% if app.current_route is same as 'home' %} active{% endif %}" aria-current="page" href="{{ path('home') }}">
+            <span data-feather="home"></span>
+            {{ 'page.home'|trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.current_route is same as 'cd-loader' %} active{% endif %}" href="{{ path('cd-loader') }}">
+            <span data-feather="disc"></span>
+            {{ 'page.cd-loader'|trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.current_route is same as 'remote' %} active{% endif %}" href={{ path('remote') }}>
+            <span data-feather="wifi"></span>
+            {{ 'page.remote'|trans }}
+        </a>
+    </li>
+</ul>

@@ -1,0 +1,6 @@
+app.name: Skank Jukebox
+
+page:
+    home: Home
+    cd-loader: CD loader
+    remote: Remote
