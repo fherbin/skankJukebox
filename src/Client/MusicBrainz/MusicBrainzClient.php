@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Client\MusicBrainz;
 
-use App\Client\Model\Artist;
-use App\Client\Model\Recording;
-use App\Client\Model\Release;
-use App\Client\Model\Search;
+use App\Client\MusicBrainz\Model\{Artist, Recording, Release, Search};
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MusicBrainzClient
 {
-    public function __construct(private HttpClientInterface $musicbrainzClient, private SerializerInterface $serializer)
-    {
+    public function __construct(
+        private readonly HttpClientInterface $musicbrainzClient,
+        private readonly SerializerInterface $serializer
+    ) {
     }
 
     /** @return Release[] */
@@ -61,7 +60,7 @@ class MusicBrainzClient
             MusicBrainzEntityEnum::RECORDING->value,
             ['query' => ['query' => 'reid:'.$releaseId]],
         );
-dd(json_decode($response->getContent()));
+
         return $this->serializer->deserialize($response->getContent(), Search::class, 'json')->recordings;
     }
 }
