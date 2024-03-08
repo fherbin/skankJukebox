@@ -26,7 +26,17 @@ return [
         'version' => '5.3.3',
         'type' => 'css',
     ],
-    'feather-icons' => [
-        'version' => '4.29.1',
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+    ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
+    'bootstrap-icons/font/bootstrap-icons.min.css' => [
+        'version' => '1.11.3',
+        'type' => 'css',
     ],
 ];

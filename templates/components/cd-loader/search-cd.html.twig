@@ -1,0 +1,41 @@
+{# @var this \App\Twig\CdLoader\SearchCd #}
+<div{{ attributes }}>
+    <div class="input-group mb-3">
+        <span class="input-group-text">{{ 'page.cd-loader.search-cd.search_for'|trans}}</span>
+        <select data-model="norender|musicBrainzEntity" class="form-select">
+            <option value="RELEASE">{{ 'page.cd-loader.search-cd.release'|trans}}</option>
+            <option value="ARTIST">{{ 'page.cd-loader.search-cd.artist'|trans}}</option>
+        </select>
+        <input type="text" class="form-control" data-model="norender|search" placeholder="{{ 'page.cd-loader.search-cd.search_placeholder'|trans}}"
+               required="required">
+        <button
+                data-loading="hide"
+                class="btn btn-outline-secondary"
+                type="button"
+                data-live-action-param="{% if this.musicBrainzEntity == 'RELEASE' %}searchRelease{% else %}searchArtist{% endif %}"
+                data-action="live#action"
+        >
+            <i class="bi bi-search"></i> {{ 'form.search'|trans}}
+        </button>
+    </div>
+    <span data-loading>{{ 'form.loading'|trans}}</span>
+    <div class="container" data-loading="hide">
+        {% if this.search and not this.releases and not this.artists and not this.recordings %}
+            <div>{{ 'form.nothing'|trans}}</div>
+        {% endif %}
+        <div class="row row-cols-auto gap-3">
+            {% for release in this.releases %}
+                {% include 'fragment/search-cd/release-card.html.twig' with {'release': release} %}
+            {% endfor %}
+        </div>
+        <div class="row row-cols-auto gap-3">
+            {% for artist in this.artists %}
+                {% include 'fragment/search-cd/artist-card.html.twig' with {'artist': artist} %}
+            {% endfor %}
+        </div>
+        {% if this.recordings|length %}
+            {% include 'fragment/search-cd/recordings-card.html.twig' with {'recordings': this.recordings} %}
+        {% endif %}
+    </div>
+
+</div>

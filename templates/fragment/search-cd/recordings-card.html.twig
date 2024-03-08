@@ -1,0 +1,22 @@
+<div class="card col">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ 'page.cd-loader.search-cd.tracks'|trans}}</h5>
+        <div class="card-text">
+            <ol class="list-group list-group-numbered">
+                {% for recording in recordings %}
+                    {# @var recording \App\Client\MusicBrainz\Model\Recording #}
+                    <li class="list-group-item">{{ recording.title }} [<i class="bi bi-stopwatch-fill"></i> {{ recording.length }}']</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <br>
+        <button
+                class="btn btn-primary btn-sm"
+                data-live-action-param="persist"
+                data-action="live#action"
+                type="button"
+        >
+            <i class="bi bi-plus-square-fill"></i> {{ 'page.cd-loader.search-cd.add_cd'|trans}}
+        </button>
+    </div>
+</div>

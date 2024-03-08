@@ -1,0 +1,21 @@
+{# @var artist \App\Client\MusicBrainz\Model\Artist #}
+
+<div class="card col">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-person-fill"></i> {{ artist.name }}</h5>
+        <p class="card-text">
+            <i class="bi bi-flag-fill"></i> {{ 'musicbrainz.artist.country'|trans}} : {{ artist.country }} <br>
+            <i class="bi bi-gender-ambiguous"></i> {{ 'musicbrainz.artist.gender'|trans}} : {{ artist.gender }} <br>
+            <i class="bi bi-question-square-fill"></i> {{ 'musicbrainz.artist.type'|trans}} : {{ artist.type }} <br>
+        </p>
+        <button
+                class="btn btn-primary btn-sm"
+                type="button"
+                data-live-artist-id-param="{{ artist.id }}"
+                data-live-action-param="getReleasesByArtist"
+                data-action="live#action"
+        >
+            <i class="bi bi-check2"></i> {{ 'form.select'|trans}}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{# @var release \App\Client\MusicBrainz\Model\Release #}
+<div class="card col">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-disc-fill"></i> {{ release.title }}</h5>
+        <p class="card-text">
+            <i class="bi bi-person-fill"></i> {{ 'musicbrainz.release.artists'|trans}} : {{ release.artists|map(a => "#{a.name}")|join(', ') }} <br>
+            <i class="bi bi-calendar-fill"></i> {{ 'musicbrainz.release.date'|trans}} : {{ release.date|date("d-m-Y") }} <br>
+            <i class="bi bi-disc-fill"></i> {{ 'musicbrainz.release.count'|trans}} : {{ release.count }} <br>
+            <i class="bi bi-question-square-fill"></i> {{ 'musicbrainz.release.status'|trans}} : {{ release.status }} <br>
+            <i class="bi bi-list-ol"></i> {{ 'musicbrainz.release.trackCount'|trans}} : {{ release.trackCount }}
+        </p>
+        <button
+                class="btn btn-primary btn-sm"
+                type="button"
+                data-live-release-id-param="{{ release.id }}"
+                data-live-action-param="getRecordingsByRelease"
+                data-action="live#action"
+        >
+            <i class="bi bi-check2"></i> {{ 'form.select'|trans}}
+        </button>
+    </div>
+</div>

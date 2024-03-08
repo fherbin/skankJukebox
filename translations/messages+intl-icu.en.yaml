@@ -1,6 +1,42 @@
 app.name: Skank Jukebox
 
 page:
-    home: Home
-    cd-loader: CD loader
-    remote: Remote
+    home:
+        name: Home
+        description: Welcome to Skank Jukebox.
+    cd-loader:
+        name: CD loader
+        description: This page allows you to search for a cd and assign it a place in the loader.
+        flash:
+            success: CD added to the collection with success.
+            fail: 'Error when adding the cd to the collection : '
+        search-cd:
+            search_for: 'Search for : '
+            search_placeholder: term to search for
+            release: Release
+            artist: Artist
+            tracks: Track List
+            add_cd: Add CD to the Collection
+    remote:
+        name: Remote
+        description: This page allows you to control your CD loader
+
+musicbrainz:
+    artist:
+        country: From
+        gender: Gender
+        type: Type
+    release:
+        artists: Artists
+        date: Release date
+        count: Medium count
+        status: Status
+        trackCount: Track count
+    recording:
+        list: Track list
+
+form:
+    select: Select
+    search: Search
+    loading: 'Loading ...'
+    nothing: Nothing found

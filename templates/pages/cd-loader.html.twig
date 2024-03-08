@@ -1,8 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ parent() }} - {{ 'page.cd-loader'|trans }}{% endblock %}
-
+{% block page_icon %}disc-fill{% endblock %}
 {% block body %}
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">{{ 'page.cd-loader'|trans }}</h1>
-    </div>
+        {{ component('cd-loader:search-cd') }}
 {% endblock %}

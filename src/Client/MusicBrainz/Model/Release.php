@@ -16,6 +16,9 @@ class Release implements MusicBrainzModelInterface
         public ?\DateTimeImmutable $date,
         #[SerializedName('track-count')]
         public ?int $trackCount,
+        /** @var null|Artist[] */
+        #[SerializedName('artist-credit')]
+        public ?array $artists,
     )
     {
     }
