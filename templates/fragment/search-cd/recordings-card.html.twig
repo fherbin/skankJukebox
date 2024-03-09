@@ -10,13 +10,28 @@
             </ol>
         </div>
         <br>
-        <button
-                class="btn btn-primary btn-sm"
-                data-live-action-param="persist"
-                data-action="live#action"
-                type="button"
-        >
-            <i class="bi bi-plus-square-fill"></i> {{ 'page.cd-loader.search-cd.add_cd'|trans}}
-        </button>
+        <div class="input-group mb-3">
+            <span class="input-group-text">{{ 'page.cd-loader.search-cd.select_slot'|trans}}</span>
+            <select data-model="norender|slotId" class="form-select">
+                {% for slot in this.slots %}
+                    <option value="{{ slot.id }}">
+                        {{ slot.number }} -
+                        {% if slot.cd %}
+                            <i class="bi bi-disc-fill"></i> {{ slot.cd.artist }} [{{ slot.cd.name }}]
+                        {% else %}
+                            <i class="bi bi-plus-circle-fill"></i> {{ 'form.empty'|trans}}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+            <button
+                    class="btn btn-primary btn-sm"
+                    data-live-action-param="persist"
+                    data-action="live#action"
+                    type="button"
+            >
+                <i class="bi bi-plus-square-fill"></i> {{ 'page.cd-loader.search-cd.add_cd'|trans}}
+            </button>
+        </div>
     </div>
 </div>

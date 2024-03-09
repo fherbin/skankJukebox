@@ -1,0 +1,22 @@
+{# @var this \App\Twig\Settings\ManageSlots #}
+<div{{ attributes }}>
+    <legend>Slot Number Management :</legend>
+    <div class="mb-3">
+        <label for="slotNumber" class="form-label">{{ 'page.settings.manage-slots.legend'|trans }}</label>
+        <input id="slotNumber"
+               class="form-control"
+               type="number"
+               step="1"
+               min="1" max="1000"
+               data-model="norender|slotNumber">
+    </div>
+    <button
+            data-loading="hide"
+            class="btn btn-primary"
+            type="button"
+            data-live-action-param="persist"
+            data-action="live#action"
+    >
+        <i class="bi bi-database-check"></i> {{ 'form.apply'|trans }}
+    </button>
+</div>

@@ -26,4 +26,10 @@ class PageController extends AbstractController
     {
         return $this->render('pages/remote.html.twig');
     }
+
+    #[Route('/settings', name: 'settings', methods: 'GET')]
+    public function settings(): Response
+    {
+        return $this->render('pages/settings.html.twig');
+    }
 }

@@ -8,7 +8,7 @@ page:
         name: CD loader
         description: This page allows you to search for a cd and assign it a place in the loader.
         flash:
-            success: CD added to the collection with success.
+            success: "CD '%s' by '%s' with '%s' tracks on slot %s added to the collection."
             fail: 'Error when adding the cd to the collection : '
         search-cd:
             search_for: 'Search for : '
@@ -17,10 +17,19 @@ page:
             artist: Artist
             tracks: Track List
             add_cd: Add CD to the Collection
+            select_slot: 'Select Slot : '
     remote:
         name: Remote
-        description: This page allows you to control your CD loader
-
+        description: This page allows you to control your CD loader.
+    settings:
+        name: Settings
+        description: This page allows you to manage this application.
+        manage-slots:
+            legend: 'modify the number of slots.<br>Warning: Data may be lost if the number is changed to a lower value.'
+            flash:
+                range: 'The number of slots must be between 1 and 1000.'
+                success: 'The number of slots have been updated to %s'
+                fail: 'An error occurred :'
 musicbrainz:
     artist:
         country: From
@@ -40,3 +49,5 @@ form:
     search: Search
     loading: 'Loading ...'
     nothing: Nothing found
+    empty: Slot empty
+    apply: Apply

@@ -21,8 +21,11 @@ class Cd
     #[ORM\Column(length: 255)]
     private ?string $artist = null;
 
-    #[ORM\OneToMany(targetEntity: Track::class, mappedBy: 'cd', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Track::class, mappedBy: 'cd', cascade: ['persist'], orphanRemoval: true)]
     private Collection $tracks;
+
+    #[ORM\OneToOne(mappedBy: 'Cd')]
+    private ?Slot $slot = null;
 
     public function __construct()
     {
@@ -58,9 +61,7 @@ class Cd
         return $this;
     }
 
-    /**
-     * @return Collection<int, Track>
-     */
+    /** @return Collection<int, Track> */
     public function getTracks(): Collection
     {
         return $this->tracks;
@@ -84,6 +85,28 @@ class Cd
                 $track->setCd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlot(): ?Slot
+    {
+        return $this->slot;
+    }
+
+    public function setSlot(?Slot $slot): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($slot === null && $this->slot !== null) {
+            $this->slot->setCd(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($slot !== null && $slot->getCd() !== $this) {
+            $slot->setCd($this);
+        }
+
+        $this->slot = $slot;
 
         return $this;
     }

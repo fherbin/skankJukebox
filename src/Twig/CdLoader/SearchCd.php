@@ -8,7 +8,10 @@ use App\Client\MusicBrainz\Model\Release;
 use App\Client\MusicBrainz\MusicBrainzClient;
 use App\Client\MusicBrainz\MusicBrainzEntityEnum;
 use App\Entity\Cd;
+use App\Entity\Slot;
 use App\Entity\Track;
+use App\Repository\SlotRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,6 +35,9 @@ class SearchCd extends AbstractController
     #[LiveProp(writable: true)]
     public string $musicBrainzEntity = MusicBrainzEntityEnum::ARTIST->name;
 
+    #[LiveProp(writable: true)]
+    public ?int $slotId = null;
+
     /** @var Artist[] */
     public array $artists = [];
 
@@ -41,10 +47,14 @@ class SearchCd extends AbstractController
     /** @var Recording[] */
     public array $recordings = [];
 
+    /** @var Slot[] */
+    public array $slots = [];
+
     public function __construct(
         private readonly MusicBrainzClient $client,
         private readonly RequestStack $requestStack,
         private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -53,12 +63,29 @@ class SearchCd extends AbstractController
     public function persist(): RedirectResponse
     {
         try {
-            $this->addFlash('success',$this->translator->trans('page.cd-loader.flash.success'));
             $cd = $this->getCdFromSession();
             $this->reset();
-            //TODO persist
+
+            $this->entityManager->persist($cd);
+            $this->entityManager->flush();
+            $message = sprintf(
+                $this->translator->trans('page.cd-loader.flash.success'),
+                $cd->getName(),
+                $cd->getArtist(),
+                $cd->getTracks()->count(),
+                $cd->getSlot()->getNumber()
+            );
+            $this->addFlash('success', $message);
+            $this->logger->info($message);
         } catch (\Throwable $throwable) {
-            $this->addFlash('danger', $this->translator->trans('page.cd-loader.flash.fail').$throwable->getMessage());
+            $message = $this->translator->trans('page.cd-loader.flash.fail').$throwable->getMessage();
+            $this->logger->error($message, [
+                'message' => $throwable->getMessage(),
+                'code' => $throwable->getCode(),
+                'file' => $throwable->getFile(),
+                'line' => $throwable->getLine(),
+            ]);
+            $this->addFlash('danger', $message);
         }
 
         return $this->redirectToRoute('cd-loader');
@@ -95,6 +122,8 @@ class SearchCd extends AbstractController
     {
         $this->artists = $this->releases = [];
         $this->recordings = $this->client->getRecordingsByRelease($releaseId);
+        $slotRepository = $this->entityManager->getRepository(Slot::class);
+        $this->slots = $slotRepository->getAll();
         $session = $this->requestStack->getSession();
         $session->set('release-name', $session->get('releases')[$releaseId]->title);
         $session->set('recordings', $this->recordings);
@@ -125,11 +154,13 @@ class SearchCd extends AbstractController
 
     private function getCdFromSession(): Cd
     {
+        $slotRepository = $this->entityManager->getRepository(Slot::class);
         $sessionContent = $this->requestStack->getSession()->all();
 
         $cd = (new Cd())
             ->setName($sessionContent['release-name'])
-            ->setArtist($sessionContent['artist-name']);
+            ->setArtist($sessionContent['artist-name'])
+            ->setSlot($slotRepository->find($this->slotId));
 
         /** @var Recording $recording */
         foreach ($sessionContent['recordings'] as $key => $recording) {
