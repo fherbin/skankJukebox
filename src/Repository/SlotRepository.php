@@ -2,11 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Cd;
 use App\Entity\Slot;
-use App\Entity\Track;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 

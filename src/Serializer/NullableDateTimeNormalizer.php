@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Serializer;
@@ -20,7 +21,7 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        if ($data === '') {
+        if ('' === $data) {
             return null;
         }
 
@@ -41,7 +42,6 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
         ?string $format = null,
         array $context = []
     ): array|string|int|float|bool|\ArrayObject|null {
-
         return $this->dateTimeNormalizer->normalize($object, $format, $context);
     }
 
@@ -54,6 +54,4 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
     {
         return $this->dateTimeNormalizer->getSupportedTypes($format);
     }
-
-
 }

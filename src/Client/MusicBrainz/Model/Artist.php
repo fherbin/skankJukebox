@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Client\MusicBrainz\Model;
@@ -12,6 +13,6 @@ class Artist implements MusicBrainzModelInterface
         public ?string $name,
         public ?string $gender,
         public ?string $country,
-    )
-    {}
+    ) {
+    }
 }

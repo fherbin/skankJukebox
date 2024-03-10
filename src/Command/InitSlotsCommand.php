@@ -19,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class InitSlotsCommand extends Command
 {
-    const JUST_COUNT_OPTION = 'just-count';
+    public const JUST_COUNT_OPTION = 'just-count';
 
     public function __construct(private SlotService $slotService, private SlotRepository $slotRepository)
     {
@@ -44,10 +44,10 @@ class InitSlotsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $number = (int)$input->getArgument('number');
+        $number = (int) $input->getArgument('number');
         try {
             if ($input->getOption(self::JUST_COUNT_OPTION)) {
-                $io->info('📀 The actual number of slots : '.count($this->slotRepository->getAll()));
+                $io->info('📀 The actual number of slots : '.\count($this->slotRepository->getAll()));
 
                 return Command::SUCCESS;
             }

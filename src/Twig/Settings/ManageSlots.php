@@ -2,7 +2,6 @@
 
 namespace App\Twig\Settings;
 
-use App\Client\MusicBrainz\MusicBrainzClient;
 use App\Entity\Slot;
 use App\Exception\InvalidSlotNumberArgumentException;
 use App\Repository\SlotRepository;
@@ -10,7 +9,6 @@ use App\Service\SlotService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -35,7 +33,7 @@ class ManageSlots extends AbstractController
         private readonly TranslatorInterface $translator,
     ) {
         $this->slots = $this->slotRepository->getAll();
-        $this->slotNumber = count($this->slots);
+        $this->slotNumber = \count($this->slots);
     }
 
     #[LiveAction]
@@ -55,7 +53,6 @@ class ManageSlots extends AbstractController
             $message = $this->translator->trans('page.settings.manage-slots.flash.fail').$throwable->getMessage();
             $this->logger->warning($message);
             $this->addFlash('warning', $message);
-
         } catch (\Throwable $throwable) {
             $message = $this->translator->trans('page.settings.manage-slots.flash.fail').$throwable->getMessage();
             $this->logger->error($message);

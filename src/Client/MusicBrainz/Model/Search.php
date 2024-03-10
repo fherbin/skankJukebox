@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Client\MusicBrainz\Model;
@@ -13,7 +14,6 @@ class Search implements MusicBrainzModelInterface
         public array $recordings = [],
         /** @var Artist[] */
         public array $artists = [],
-    )
-    {
+    ) {
     }
 }

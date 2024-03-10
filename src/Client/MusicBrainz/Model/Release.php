@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Client\MusicBrainz\Model;
@@ -16,10 +17,9 @@ class Release implements MusicBrainzModelInterface
         public ?\DateTimeImmutable $date,
         #[SerializedName('track-count')]
         public ?int $trackCount,
-        /** @var null|Artist[] */
+        /** @var Artist[]|null */
         #[SerializedName('artist-credit')]
         public ?array $artists,
-    )
-    {
+    ) {
     }
 }

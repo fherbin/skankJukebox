@@ -1,8 +1,8 @@
 # skankJukebox
 CD Collection manager and remote for Sony S-Link
 
-# Installation
+# Installation in production
 
 * clone the project in a directory, cd in
-* `docker-compose up`
+* `make install`
 * go to [http://localhost](http://localhost)

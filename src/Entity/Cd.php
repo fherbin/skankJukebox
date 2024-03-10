@@ -97,12 +97,12 @@ class Cd
     public function setSlot(?Slot $slot): static
     {
         // unset the owning side of the relation if necessary
-        if ($slot === null && $this->slot !== null) {
+        if (null === $slot && null !== $this->slot) {
             $this->slot->setCd(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($slot !== null && $slot->getCd() !== $this) {
+        if (null !== $slot && $slot->getCd() !== $this) {
             $slot->setCd($this);
         }
 

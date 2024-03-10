@@ -26,8 +26,8 @@ class CdList extends AbstractController
     #[LiveProp(writable: true)]
     public int $perPage = 9;
 
-    /** @var null|Paginator<Slot> */
-    public ?Paginator $slotsPaginated = null ;
+    /** @var Paginator<Slot>|null */
+    public ?Paginator $slotsPaginated = null;
 
     public int $maxPage = 0;
 

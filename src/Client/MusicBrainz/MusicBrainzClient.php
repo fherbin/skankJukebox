@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Client\MusicBrainz;
 
-use App\Client\MusicBrainz\Model\{Artist, Recording, Release, Search};
+use App\Client\MusicBrainz\Model\Artist;
+use App\Client\MusicBrainz\Model\Recording;
+use App\Client\MusicBrainz\Model\Release;
+use App\Client\MusicBrainz\Model\Search;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

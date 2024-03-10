@@ -10,7 +10,6 @@ use App\Client\MusicBrainz\MusicBrainzEntityEnum;
 use App\Entity\Cd;
 use App\Entity\Slot;
 use App\Entity\Track;
-use App\Repository\SlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +26,6 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 class SearchCd extends AbstractController
 {
     use DefaultActionTrait;
-
 
     #[LiveProp(writable: true)]
     public string $search = '';
@@ -144,7 +142,7 @@ class SearchCd extends AbstractController
             'releases',
             array_combine(
                 array_map(
-                    fn(Release $release) => $release->id,
+                    fn (Release $release) => $release->id,
                     $this->releases
                 ),
                 $this->releases
@@ -173,5 +171,4 @@ class SearchCd extends AbstractController
 
         return $cd;
     }
-
 }

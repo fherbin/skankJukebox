@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Client\MusicBrainz\Model;
@@ -16,7 +17,6 @@ class Recording implements MusicBrainzModelInterface
         public ?\DateTimeImmutable $firstReleaseDate,
         /** @var Release[] */
         public ?array $releases,
-    )
-    {
+    ) {
     }
 }

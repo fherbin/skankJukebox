@@ -14,7 +14,6 @@ class AppFixtures extends Fixture
     private const SLOT_NUMER = 300;
     private const BATCH_COUNT = 100;
 
-
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -33,8 +32,8 @@ class AppFixtures extends Fixture
                 );
             }
             $manager->persist($slot);
-            $batchCount++;
-            $total++;
+            ++$batchCount;
+            ++$total;
             if ($batchCount >= self::BATCH_COUNT) {
                 $manager->flush();
                 $manager->clear();
