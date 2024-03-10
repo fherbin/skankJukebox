@@ -21,6 +21,14 @@ page:
     remote:
         name: Remote
         description: This page allows you to control your CD loader.
+        cd-list:
+            search-placeholder: Search for ...
+            flash:
+                fail: 'An error occurred : '
+            per-page: 'Result per page : '
+            slot-number: 'Slot number'
+            tracks: 'Tracks'
+            release: 'Release'
     settings:
         name: Settings
         description: This page allows you to manage this application.
@@ -29,7 +37,7 @@ page:
             flash:
                 range: 'The number of slots must be between 1 and 1000.'
                 success: 'The number of slots have been updated to %s'
-                fail: 'An error occurred :'
+                fail: 'An error occurred : '
 musicbrainz:
     artist:
         country: From

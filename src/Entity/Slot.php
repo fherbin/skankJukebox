@@ -16,7 +16,7 @@ class Slot
     #[ORM\OneToOne(inversedBy: 'slot', cascade: ['persist'], orphanRemoval: true)]
     private ?Cd $Cd = null;
 
-    #[ORM\Column]
+    #[ORM\Column(unique: true)]
     private ?int $number = null;
 
     public function getId(): ?int

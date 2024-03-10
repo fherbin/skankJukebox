@@ -1,0 +1,81 @@
+{# @var this \App\Twig\Remote\CdList #}
+<div{{ attributes }}>
+    <fieldset data-loading="addClass(disabled)">
+        <div class="row g-3">
+            <div class="input-group mb-3">
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" placeholder="{{ 'page.remote.cd-list.search-placeholder'|trans }}" data-model="debounce(1000)|search">
+                </div>
+                <span class="input-group-text">{{ 'page.remote.cd-list.per-page'|trans }}</span>
+                <div class="col-sm">
+                    <input type="number" min="1" max="100" class="form-control" data-model="debounce(750)|perPage">
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'page.remote.cd-list.slot-number'|trans }}</th>
+            <th scope="col">{{ 'musicbrainz.release.artists'|trans }}</th>
+            <th scope="col">{{ 'page.remote.cd-list.release'|trans }}</th>
+            <th scope="col">{{ 'page.remote.cd-list.tracks'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for slot in this.slots %}
+            {# @var slot \App\Entity\Slot #}
+            <tr>
+                <th scope="row">{{ slot.number }}</th>
+                <td>{{ slot.cd.artist }}</td>
+                <td>{{ slot.cd.name }}</td>
+                <td>
+                    <div class="accordion accordion-flush" id="accordion-{{ slot.cd.id }}">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapse-{{ slot.cd.id }}"
+                                >
+                                    {{ slot.cd.tracks|length }} {{ 'page.remote.cd-list.tracks'|trans }}
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-{{ slot.cd.id }}"
+                                 class="accordion-collapse collapse"
+                                 data-bs-parent="#accordion-{{ slot.cd.id }}"
+                            >
+                                <div class="accordion-body">
+                                    <ol class="list-group list-group-numbered">
+                                        {% for track in slot.cd.tracks %}
+                                            {# @var track \App\Entity\Track #}
+                                            <li class="list-group-item">{{ track.name }} [<i class="bi bi-stopwatch-fill"></i> {{ track.length }}']</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+            {% for page in range(1, this.maxPage) %}
+                {% if loop.first or loop.last or ((page - this.page)|abs < 5) %}
+                    <button type="button"
+                            class="btn btn-{% if page == this.page %}success{% else %}info{% endif %}"
+                            data-model="page"
+                            data-value="{{ page }}"
+                            data-action="live#update"
+                    >
+                        {{ page }}
+                    </button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
