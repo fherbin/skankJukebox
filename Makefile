@@ -56,7 +56,7 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-## —— skankJukebox 🎵 ——————————————————————————————————————————————————————————
+## —— skankJukebox DEV 🎵 ———————————————————————————————————————————————————————
 
 assets: c=asset-map:compile ## compile assets
 assets:	sf
@@ -67,11 +67,22 @@ db-upgrade:	sf
 build-cache: ## Builds the Docker images with cache
 	@$(DOCKER_COMP) build
 
+fix-style: ## fix coding style with php-cs
+	$(PHP) vendor/bin/php-cs-fixer -v -n fix
+
 clear:
 	@$(PHP) rm -R ./var
 	@$(PHP) rm -R ./public/assets
 
-ci: ## execute ci
-	@$(PHP) vendor/bin/php-cs-fixer -n fix
+vendor-dev: ## Install dev vendors according to the current composer.lock file
+vendor-dev: c=install
+vendor-dev: composer
+
+ci: ## execute ci : rector, phpstan, php-cs
+	@$(PHP) vendor/bin/rector -n && $(PHP) vendor/bin/phpstan && $(PHP) vendor/bin/php-cs-fixer -v -n check
+
+install-dev: down clear build up vendor-dev ## install jukebox in a development environment
+
+## —— skankJukebox use 🎵 ———————————————————————————————————————————————————————
 
 install: down clear build-cache up vendor assets ## install jukebox in a production environment

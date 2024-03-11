@@ -71,7 +71,7 @@ class SearchCd extends AbstractController
                 $cd->getName(),
                 $cd->getArtist(),
                 $cd->getTracks()->count(),
-                $cd->getSlot()->getNumber()
+                $cd->getSlot()?->getNumber()
             );
             $this->addFlash('success', $message);
             $this->logger->info($message);
@@ -110,7 +110,13 @@ class SearchCd extends AbstractController
         $this->artists = $this->recordings = [];
         $this->releases = $this->client->getReleasesByArtist($artistId);
         if ($this->releases) {
-            $this->requestStack->getSession()->set('artist-name', $this->releases[0]->artists[0]->name);
+            $firstRelease = reset($this->releases);
+            $artist = '';
+            if ($firstRelease->artists) {
+                $firstArtist = reset($firstRelease->artists);
+                $artist = $firstArtist->name;
+            }
+            $this->requestStack->getSession()->set('artist-name', $artist);
             $this->setTmpReleases();
         }
     }
@@ -156,16 +162,16 @@ class SearchCd extends AbstractController
         $sessionContent = $this->requestStack->getSession()->all();
 
         $cd = (new Cd())
-            ->setName($sessionContent['release-name'])
-            ->setArtist($sessionContent['artist-name'])
+            ->setName($sessionContent['release-name'] ?: $this->translator->trans('form.unknown'))
+            ->setArtist($sessionContent['artist-name'] ?: $this->translator->trans('form.unknown'))
             ->setSlot($slotRepository->find($this->slotId));
 
         /** @var Recording $recording */
         foreach ($sessionContent['recordings'] as $key => $recording) {
             $cd->addTrack(
                 (new Track())
-                    ->setName($recording->title)
-                    ->setLength($recording->length)
+                    ->setName($recording->title ?: $this->translator->trans('form.unknown'))
+                    ->setLength($recording->length ?: 0)
             );
         }
 

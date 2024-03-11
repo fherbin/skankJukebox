@@ -7,6 +7,7 @@ use App\Repository\SlotRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -38,20 +39,24 @@ class CdList extends AbstractController
     ) {
     }
 
-    /** @return Paginator<Slot> */
-    public function getSlots(): Paginator
+    /** @return RedirectResponse|Paginator<Slot> */
+    public function getSlots()
     {
         try {
-            $this->slotsPaginated = $this->slotRepository->getChargedPaginated($this->page, $this->perPage, $this->search);
-            $this->maxPage = ceil($this->slotsPaginated->count() / $this->perPage);
+            $this->slotsPaginated = $this->slotRepository->getChargedPaginated(
+                $this->page,
+                $this->perPage,
+                $this->search
+            );
+            $this->maxPage = (int) ceil($this->slotsPaginated->count() / $this->perPage);
+
+            return $this->slotsPaginated;
         } catch (\Throwable $throwable) {
             $message = $this->translator->trans('page.remote.cd-list.flash.fail').$throwable->getMessage();
             $this->addFlash('danger', $message);
             $this->logger->error($message);
 
-            $this->redirectToRoute('remote');
+            return $this->redirectToRoute('remote');
         }
-
-        return $this->slotsPaginated;
     }
 }

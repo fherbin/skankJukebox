@@ -21,7 +21,7 @@ class ManageSlots extends AbstractController
     use DefaultActionTrait;
 
     #[LiveProp(writable: true)]
-    public string $slotNumber;
+    public int $slotNumber;
 
     /** @var Slot[] */
     public array $slots;
