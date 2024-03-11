@@ -61,8 +61,11 @@ cc: sf
 assets: c=asset-map:compile ## compile assets
 assets:	sf
 
-db-upgrade: c=doctrine:schema:update --force --quiet --no-interaction ## compile assets
-db-upgrade:	sf
+db-upgrade:  ## update db schema
+	@$(SYMFONY) doctrine:schema:update --force --no-interaction
+
+db-upgrade-test: ## update db schema for test
+	@$(SYMFONY) --env=test doctrine:schema:update --force --no-interaction
 
 build-cache: ## Builds the Docker images with cache
 	@$(DOCKER_COMP) build
@@ -70,9 +73,9 @@ build-cache: ## Builds the Docker images with cache
 fix-style: ## fix coding style with php-cs
 	$(PHP) vendor/bin/php-cs-fixer -v -n fix
 
-clear:
-	@$(PHP) rm -R ./var
-	@$(PHP) rm -R ./public/assets
+clear: ## clear cache and assets
+	@$(PHP_CONT) rm -fR ./var
+	@$(PHP_CONT) rm -fR ./public/assets
 
 vendor-dev: ## Install dev vendors according to the current composer.lock file
 vendor-dev: c=install
@@ -80,9 +83,13 @@ vendor-dev: composer
 
 ci: ## execute ci : rector, phpstan, php-cs
 	@$(PHP) vendor/bin/rector -n && $(PHP) vendor/bin/phpstan && $(PHP) vendor/bin/php-cs-fixer -v -n check
+	@$(SYMFONY) lint:yaml ./
+	@$(SYMFONY) lint:twig
+	@$(SYMFONY) lint:container
 
-install-dev: down clear build up vendor-dev ## install jukebox in a development environment
+
+install-dev: down clear build up db-upgrade-test vendor-dev ## install jukebox in a development environment
 
 ## —— skankJukebox use 🎵 ———————————————————————————————————————————————————————
 
-install: down clear build-cache up vendor assets ## install jukebox in a production environment
+install: down clear build-cache up db-upgrade vendor assets ## install jukebox in a production environment

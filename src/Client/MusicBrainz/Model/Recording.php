@@ -10,13 +10,13 @@ class Recording implements MusicBrainzModelInterface
 {
     public function __construct(
         public string $id,
-        public ?int $score,
-        public ?string $title,
-        public ?int $length,
+        public ?int $score = null,
+        public ?string $title = null,
+        public ?int $length = null,
         #[SerializedName('first-release-date')]
-        public ?\DateTimeImmutable $firstReleaseDate,
+        public ?\DateTimeImmutable $firstReleaseDate = null,
         /** @var Release[] */
-        public ?array $releases,
+        public ?array $releases = null,
     ) {
     }
 }

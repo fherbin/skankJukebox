@@ -10,16 +10,16 @@ class Release implements MusicBrainzModelInterface
 {
     public function __construct(
         public string $id,
-        public ?int $score,
-        public ?int $count,
-        public ?string $title,
-        public ?string $status,
-        public ?\DateTimeImmutable $date,
+        public ?int $score = null,
+        public ?int $count = null,
+        public ?string $title = null,
+        public ?string $status = null,
+        public ?\DateTimeImmutable $date = null,
         #[SerializedName('track-count')]
-        public ?int $trackCount,
+        public ?int $trackCount = null,
         /** @var Artist[]|null */
         #[SerializedName('artist-credit')]
-        public ?array $artists,
+        public ?array $artists = null,
     ) {
     }
 }

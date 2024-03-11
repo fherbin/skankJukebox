@@ -2,7 +2,6 @@
 
 namespace App\Twig\Settings;
 
-use App\Entity\Slot;
 use App\Exception\InvalidSlotNumberArgumentException;
 use App\Repository\SlotRepository;
 use App\Service\SlotService;
@@ -23,17 +22,13 @@ class ManageSlots extends AbstractController
     #[LiveProp(writable: true)]
     public int $slotNumber;
 
-    /** @var Slot[] */
-    public array $slots;
-
     public function __construct(
         readonly SlotRepository $slotRepository,
         private readonly LoggerInterface $logger,
         private readonly SlotService $slotService,
         private readonly TranslatorInterface $translator,
     ) {
-        $this->slots = $this->slotRepository->getAll();
-        $this->slotNumber = \count($this->slots);
+        $this->slotNumber = $this->slotRepository->count();
     }
 
     #[LiveAction]

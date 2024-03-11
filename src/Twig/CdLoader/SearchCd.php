@@ -129,7 +129,13 @@ class SearchCd extends AbstractController
         $slotRepository = $this->entityManager->getRepository(Slot::class);
         $this->slots = $slotRepository->getAll();
         $session = $this->requestStack->getSession();
-        $session->set('release-name', $session->get('releases')[$releaseId]->title);
+        /** @var Release $selectedRelease */
+        $selectedRelease = $session->get('releases')[$releaseId];
+        $session->set('release-name', $selectedRelease->title);
+        if (!$session->has('artist') && $selectedRelease->artists) {
+            $firstArtist = reset($selectedRelease->artists);
+            $session->set('artist-name', $firstArtist->name);
+        }
         $session->set('recordings', $this->recordings);
     }
 

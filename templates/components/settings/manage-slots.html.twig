@@ -1,8 +1,8 @@
 {# @var this \App\Twig\Settings\ManageSlots #}
 <div{{ attributes }}>
-    <legend>Slot Number Management :</legend>
+    <legend>{{ 'page.settings.manage-slots.title'|trans }}</legend>
     <div class="mb-3">
-        <label for="slotNumber" class="form-label">{{ 'page.settings.manage-slots.legend'|trans }}</label>
+        <label for="slotNumber" class="form-label">{{ 'page.settings.manage-slots.legend'|trans|raw }}</label>
         <input id="slotNumber"
                class="form-control"
                type="number"

@@ -8,11 +8,11 @@ class Artist implements MusicBrainzModelInterface
 {
     public function __construct(
         public ?string $id,
-        public ?string $type,
-        public ?int $score,
-        public ?string $name,
-        public ?string $gender,
-        public ?string $country,
+        public ?string $type = null,
+        public ?int $score = null,
+        public ?string $name = null,
+        public ?string $gender = null,
+        public ?string $country = null,
     ) {
     }
 }

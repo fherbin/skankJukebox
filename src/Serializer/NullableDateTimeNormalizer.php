@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsDecorator(decorates: 'serializer.normalizer.datetime')]
-class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
+readonly class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function __construct(
         #[AutowireDecorated]
@@ -28,6 +28,7 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
         return $this->dateTimeNormalizer->denormalize($data, $type, $format, $context);
     }
 
+    /** @codeCoverageIgnore  */
     public function supportsDenormalization(
         mixed $data,
         string $type,
@@ -37,6 +38,7 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
         return $this->dateTimeNormalizer->supportsDenormalization($data, $type, $format, $context);
     }
 
+    /** @codeCoverageIgnore  */
     public function normalize(
         mixed $object,
         ?string $format = null,
@@ -45,11 +47,13 @@ class NullableDateTimeNormalizer implements NormalizerInterface, DenormalizerInt
         return $this->dateTimeNormalizer->normalize($object, $format, $context);
     }
 
+    /** @codeCoverageIgnore  */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $this->dateTimeNormalizer->supportsNormalization($data, $format, $context);
     }
 
+    /** @codeCoverageIgnore  */
     public function getSupportedTypes(?string $format): array
     {
         return $this->dateTimeNormalizer->getSupportedTypes($format);

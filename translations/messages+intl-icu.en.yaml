@@ -33,6 +33,7 @@ page:
         name: Settings
         description: This page allows you to manage this application.
         manage-slots:
+            title: 'Slot Number Management :'
             legend: 'modify the number of slots.<br>Warning: Data may be lost if the number is changed to a lower value.'
             flash:
                 range: 'The number of slots must be between 1 and 1000.'

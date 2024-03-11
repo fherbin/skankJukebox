@@ -16,6 +16,12 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+    ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
     'bootstrap' => [
         'version' => '5.3.3',
     ],
@@ -28,12 +34,6 @@ return [
     ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
-    ],
-    '@symfony/stimulus-bundle' => [
-        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
-    '@symfony/ux-live-component' => [
-        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
     'bootstrap-icons/font/bootstrap-icons.min.css' => [
         'version' => '1.11.3',

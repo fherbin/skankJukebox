@@ -7,11 +7,6 @@ ARG USER_GID=1000
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN \
- usermod -u ${USER_UID} ${USER} && groupmod -g ${USER_GID} ${USER} && \
- setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
- chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy
-
-RUN \
  apt-get update && \
  apt-get -y install --no-install-recommends nano unzip curl && \
  apt-get clean && \
@@ -24,5 +19,10 @@ RUN install-php-extensions \
 	opcache \
     apcu \
     pdo_pgsql
+
+RUN \
+ usermod -u ${USER_UID} ${USER} && groupmod -g ${USER_GID} ${USER} && \
+ setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
+ chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy && chown -R ${USER}:${USER} /var/www
 
 USER ${USER}

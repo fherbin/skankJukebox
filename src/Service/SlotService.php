@@ -15,24 +15,19 @@ class SlotService
     public function updateSlotsNumber(int $number): void
     {
         $slotRepository = $this->entityManager->getRepository(Slot::class);
-        $slots = $slotRepository->getAll();
-        $firstNewSlot = 1;
-        $actualSlotNumber = \count($slots);
-        if ($slots) {
-            if ($number === $actualSlotNumber) {
-                throw new InvalidSlotNumberArgumentException('The number of slots must be different from the current number.');
-            }
-            $firstNewSlot = $actualSlotNumber + 1;
+        $actualSlotNumber = $slotRepository->count();
+        if ($number === $actualSlotNumber) {
+            throw new InvalidSlotNumberArgumentException('The number of slots must be different from the current number.');
         }
+        $firstNewSlot = $actualSlotNumber + 1;
         if ($number < $actualSlotNumber) {
             foreach (range($number + 1, $actualSlotNumber) as $slotNumber) {
                 $this->entityManager->remove($slotRepository->findOneByNumber($slotNumber));
-                $this->entityManager->flush();
             }
+            $this->entityManager->flush();
 
             return;
         }
-
         foreach (range($firstNewSlot, $number) as $slotNumber) {
             $this->entityManager->persist((new Slot())->setNumber($slotNumber));
         }
